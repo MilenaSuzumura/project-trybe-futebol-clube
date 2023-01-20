@@ -1,4 +1,4 @@
-/* import * as Joi from 'joi';
+import * as Joi from 'joi';
 import { Request, Response, NextFunction } from 'express';
 
 const schema = Joi.object({
@@ -20,4 +20,4 @@ const loginValidation = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-export default { loginValidation }; */
+export default { loginValidation };

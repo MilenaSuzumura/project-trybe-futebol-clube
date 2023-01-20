@@ -1,4 +1,4 @@
-/* import * as Bcrypt from 'bcryptjs';
+import * as Bcrypt from 'bcryptjs';
 import JWT from '../validation/jwt';
 import usersModel from '../models/UserModel';
 
@@ -25,4 +25,4 @@ export default class LoginService {
     const role = this.jwt.verificaToken(authorization);
     return role;
   }
-} */
+}

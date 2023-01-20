@@ -1,4 +1,4 @@
-/* import * as jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 
 export default class JWT {
   createToken = (data: object) => {
@@ -18,4 +18,4 @@ export default class JWT {
     );
     return role;
   };
-} */
+}

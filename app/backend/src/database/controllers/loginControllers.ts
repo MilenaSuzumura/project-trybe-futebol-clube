@@ -1,4 +1,4 @@
-/* import { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import LoginService from '../services/loginServices';
 
 export default class LoginControllers {
@@ -23,4 +23,4 @@ export default class LoginControllers {
       res.status(200).json({ role });
     }
   }
-} */
+}

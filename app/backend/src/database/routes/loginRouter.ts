@@ -1,9 +1,9 @@
 import { Router } from 'express';
-/* import LoginControllers from '../controllers/loginControllers';
-import loginValidation from '../validation/loginValidation'; */
+import LoginControllers from '../controllers/loginControllers';
+import loginValidation from '../validation/loginValidation';
 
 const loginRoute = Router();
-/* const loginControllers = new LoginControllers();
+const loginControllers = new LoginControllers();
 
 loginRoute.post(
   '/',
@@ -14,6 +14,6 @@ loginRoute.post(
 loginRoute.get(
   '/validate',
   loginControllers.validateToken.bind(loginControllers),
-); */
+);
 
 export default loginRoute;
