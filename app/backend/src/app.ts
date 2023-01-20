@@ -1,4 +1,8 @@
 import * as express from 'express';
+import loginRouter from './database/routes/loginRouter';
+import matchesRoute from './database/routes/matchesRouter';
+import teamsRoute from './database/routes/teamsRouter';
+import leaderboardRoute from './database/routes/leaderboardRoute';
 
 class App {
   public app: express.Express;
@@ -10,6 +14,10 @@ class App {
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
+    this.app.use('/login', loginRouter);
+    this.app.use('/teams', teamsRoute);
+    this.app.use('/matches', matchesRoute);
+    this.app.use('/leaderboard', leaderboardRoute);
   }
 
   private config():void {
