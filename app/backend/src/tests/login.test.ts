@@ -1,4 +1,4 @@
-/* import * as sinon from 'sinon';
+import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
@@ -81,4 +81,4 @@ describe('Teste de Login', () => {
     expect(response.status).to.be.equal(200);
     expect(response.body).to.be.deep.equal({ role: 'admin' });
   });
-}) */
+})
