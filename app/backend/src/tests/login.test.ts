@@ -3,13 +3,15 @@ import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
-import App from '../app';
+import { app } from '../app';
+
+import { Response } from 'superagent';
 
 chai.use(chaiHttp);
 
-const { app } = new App();
-
 const { expect } = chai;
+
+chai.use(chaiHttp);
 
 beforeEach(() => sinon.restore());
 
