@@ -5,8 +5,8 @@ import db from '.';
 class Match extends Model {
   declare id: number;
   declare teamName: string;
-  declare homeTeam: number;
-  declare awayTeam: number;
+  declare homeTeamId: number;
+  declare awayTeamId: number;
   declare awayTeamGoals: number;
   declare inProgress: boolean;
 }
@@ -21,10 +21,10 @@ Match.init({
   homeTeamGoals: {
     type: INTEGER,
   },
-  homeTeam: {
+  homeTeamId: {
     type: INTEGER,
   },
-  awayTeam: {
+  awayTeamId: {
     type: INTEGER,
   },
   awayTeamGoals: {
