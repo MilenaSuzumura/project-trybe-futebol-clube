@@ -1,4 +1,4 @@
-/* import { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import TeamsService from '../services/teamsServices';
 
 export default class TeamsControllers {
@@ -14,4 +14,4 @@ export default class TeamsControllers {
     const idTeam = await this.teamsService.getId(id);
     return res.status(200).json(idTeam);
   };
-} */
+}

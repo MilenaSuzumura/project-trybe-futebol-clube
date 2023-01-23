@@ -1,4 +1,4 @@
-/* import teamsModel from '../models/TeamModel';
+import teamsModel from '../models/TeamModel';
 
 export default class TeamsService {
   getTeams = async () => {
@@ -10,4 +10,4 @@ export default class TeamsService {
     const idTeam = await teamsModel.findOne({ where: { id } });
     return idTeam;
   };
-} */
+}

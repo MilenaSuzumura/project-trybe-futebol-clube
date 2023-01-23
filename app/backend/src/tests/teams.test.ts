@@ -1,18 +1,21 @@
-/* import * as sinon from 'sinon';
+import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
-import App from '../app';
 import teams from './mockes/teams';
 
+import { app } from '../app';
+
+import { Response } from 'superagent';
 
 chai.use(chaiHttp);
 
-const { app } = new App();
-
 const { expect } = chai;
 
+chai.use(chaiHttp);
+
+beforeEach(() => sinon.restore());
 beforeEach(() => sinon.restore());
 
 describe('Testando a rota Teams', () => {
@@ -29,4 +32,4 @@ describe('Testando a rota Teams', () => {
     expect(response.status).to.be.equal(200);
     expect(response.body).to.be.deep.equal(teams.allTeams[0]);
   });
-}); */
+});
