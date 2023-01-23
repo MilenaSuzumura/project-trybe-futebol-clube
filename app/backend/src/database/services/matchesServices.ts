@@ -1,12 +1,12 @@
-/* import matchModel from '../models/MatchModel';
+import matchModel from '../models/MatchModel';
 import teamModel from '../models/TeamModel';
 
 export default class MatchesService {
   getMatches = async () => {
     const matches = await matchModel.findAll();
     const mapMatches = Promise.all(matches.map(async (matche) => {
-      const teamHome = await teamModel.findOne({ where: { id: matche.homeTeam } });
-      const teamAway = await teamModel.findOne({ where: { id: matche.awayTeam } });
+      const teamHome = await teamModel.findOne({ where: { id: matche.homeTeamId } });
+      const teamAway = await teamModel.findOne({ where: { id: matche.awayTeamId } });
       const result = {
         ...matche.dataValues,
         teamHome: {
@@ -25,8 +25,8 @@ export default class MatchesService {
     const inProgress = JSON.parse(inProgressString);
     const matches = await matchModel.findAll({ where: { inProgress } });
     const mapMatches = Promise.all(matches.map(async (matche) => {
-      const teamAway = await teamModel.findOne({ where: { id: matche.awayTeam } });
-      const teamHome = await teamModel.findOne({ where: { id: matche.homeTeam } });
+      const teamAway = await teamModel.findOne({ where: { id: matche.awayTeamId } });
+      const teamHome = await teamModel.findOne({ where: { id: matche.homeTeamId } });
       const result = {
         ...matche.dataValues,
         teamHome: {
@@ -42,18 +42,18 @@ export default class MatchesService {
   };
 
   newMatch =
-  async (homeTeam: string, awayTeam: string, homeTeamGoals: string, awayTeamGoals: string) => {
-    if (homeTeam === awayTeam) {
+  async (homeTeamId: string, awayTeamId: string, homeTeamGoals: string, awayTeamGoals: string) => {
+    if (homeTeamId === awayTeamId) {
       console.log('entrou no if do newMatch');
       return { status: 422, message: 'It is not possible to create a match with two equal teams' };
     }
 
-    const team1 = await teamModel.findOne({ where: { id: homeTeam } });
-    const team2 = await teamModel.findOne({ where: { id: awayTeam } });
+    const team1 = await teamModel.findOne({ where: { id: homeTeamId } });
+    const team2 = await teamModel.findOne({ where: { id: awayTeamId } });
     if (team1 && team2) {
       const insert = await matchModel.create({
-        homeTeam,
-        awayTeam,
+        homeTeamId,
+        awayTeamId,
         awayTeamGoals,
         homeTeamGoals,
         inProgress: true,
@@ -67,4 +67,4 @@ export default class MatchesService {
     const changeProgress = await matchModel.update({ inProgress: false }, { where: { id } });
     return changeProgress;
   };
-} */
+}

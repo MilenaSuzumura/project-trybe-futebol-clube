@@ -23,9 +23,17 @@ Match.init({
   },
   homeTeamId: {
     type: INTEGER,
+    references: {
+      model: 'teams',
+      key: 'id',
+    },
   },
   awayTeamId: {
     type: INTEGER,
+    references: {
+      model: 'teams',
+      key: 'id',
+    },
   },
   awayTeamGoals: {
     type: INTEGER,

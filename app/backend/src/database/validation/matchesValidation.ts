@@ -1,4 +1,4 @@
-/* import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import teamModel from '../models/TeamModel';
 
@@ -41,4 +41,4 @@ const teamInexistente = async (req: Request, res: Response, next: NextFunction) 
   next();
 };
 
-export default { matchesValidation, mesmoTeam, teamInexistente }; */
+export default { matchesValidation, mesmoTeam, teamInexistente };

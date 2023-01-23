@@ -1,4 +1,4 @@
-/* import { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import MatchesService from '../services/matchesServices';
 
 export default class MatchesControllers {
@@ -15,9 +15,9 @@ export default class MatchesControllers {
   }
 
   async newMatch(req: Request, res: Response) {
-    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
+    const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
     const match = await this.matchesService
-      .newMatch(homeTeam, awayTeam, homeTeamGoals, awayTeamGoals);
+      .newMatch(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
     if (match.message) {
       return res.status(match.status).json({ message: match.message });
     }
@@ -30,4 +30,4 @@ export default class MatchesControllers {
       return res.status(200).json({ message: 'Finished' });
     }
   }
-} */
+}
