@@ -1,19 +1,24 @@
+import matchesResultInterface from '../interface/matchesResultInterface';
 import matchModel from '../models/MatchModel';
 import teamModel from '../models/TeamModel';
 
 export default class MatchesService {
-  getMatches = async () => {
-    const matches = await matchModel.findAll();
+  teamInfo = async (id: number) => {
+    const team = await teamModel.findOne({ where: { id } });
+    if (team) return team.dataValues;
+  };
+
+  matchesResult = async (matches: Array<matchesResultInterface>) => {
     const mapMatches = await Promise.all(matches.map(async (matche) => {
-      const teamHome = await teamModel.findOne({ where: { id: matche.homeTeamId } });
-      const teamAway = await teamModel.findOne({ where: { id: matche.awayTeamId } });
+      const teamHome = await this.teamInfo(matche.homeTeamId);
+      const teamAway = await this.teamInfo(matche.awayTeamId);
       const result = {
-        ...matche.dataValues,
-        teamHome: {
-          teamName: teamHome?.teamName as string,
+        ...matche,
+        homeTeam: {
+          teamName: teamHome.teamName,
         },
-        teamAway: {
-          teamName: teamAway?.teamName as string,
+        awayTeam: {
+          teamName: teamAway.teamName,
         },
       };
       return result;
@@ -21,23 +26,18 @@ export default class MatchesService {
     return mapMatches;
   };
 
+  getMatches = async () => {
+    const matches = await matchModel.findAll();
+    const matchesOrganizado = await Promise.all(matches.map(async (matche) => matche.dataValues));
+    const mapMatches = await this.matchesResult(matchesOrganizado);
+    return mapMatches;
+  };
+
   filtro = async (inProgressString: string) => {
     const inProgress = JSON.parse(inProgressString);
     const matches = await matchModel.findAll({ where: { inProgress } });
-    const mapMatches = await Promise.all(matches.map(async (matche) => {
-      const teamAway = await teamModel.findOne({ where: { id: matche.awayTeamId } });
-      const teamHome = await teamModel.findOne({ where: { id: matche.homeTeamId } });
-      const result = {
-        ...matche.dataValues,
-        teamHome: {
-          teamName: teamHome?.teamName,
-        },
-        teamAway: {
-          teamName: teamAway?.teamName,
-        },
-      };
-      return result;
-    }));
+    const matchesOrganizado = await Promise.all(matches.map(async (matche) => matche.dataValues));
+    const mapMatches = await this.matchesResult(matchesOrganizado);
     return mapMatches;
   };
 

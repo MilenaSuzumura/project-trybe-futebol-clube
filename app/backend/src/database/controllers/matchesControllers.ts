@@ -5,7 +5,7 @@ export default class MatchesControllers {
   matchesService = new MatchesService();
 
   getMatches = async (req: Request, res: Response) => {
-    if (req.query.inProgress) {
+    if (req.query.inProgress !== undefined) {
       const inProgress = await this.matchesService.filtro(req.query.inProgress as string);
       return res.status(200).json(inProgress);
     }
