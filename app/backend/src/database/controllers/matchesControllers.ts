@@ -15,9 +15,7 @@ export default class MatchesControllers {
   };
 
   async newMatch(req: Request, res: Response) {
-    const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
-    const match = await this.matchesService
-      .newMatch(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
+    const match = await this.matchesService.newMatch(req.body);
     return res.status(201).json(match);
   }
 
@@ -26,5 +24,12 @@ export default class MatchesControllers {
     if (inProgress) {
       return res.status(200).json({ message: 'Finished' });
     }
+  }
+
+  async changeMatches(req: Request, res: Response) {
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    const change = await this.matchesService
+      .changeMatches(req.params.id, homeTeamGoals, awayTeamGoals);
+    return res.status(200).json(change);
   }
 }

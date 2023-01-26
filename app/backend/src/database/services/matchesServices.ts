@@ -1,4 +1,5 @@
 import matchesResultInterface from '../interface/matchesResultInterface';
+import newMatchInterface from '../interface/newMatchInterface';
 import matchModel from '../models/MatchModel';
 import teamModel from '../models/TeamModel';
 
@@ -41,13 +42,9 @@ export default class MatchesService {
     return mapMatches;
   };
 
-  newMatch =
-  async (homeTeamId: string, awayTeamId: string, homeTeamGoals: string, awayTeamGoals: string) => {
+  newMatch = async (info: newMatchInterface) => {
     const insert = await matchModel.create({
-      homeTeamId,
-      awayTeamId,
-      awayTeamGoals,
-      homeTeamGoals,
+      ...info,
       inProgress: true,
     });
     return insert.dataValues;
@@ -55,6 +52,13 @@ export default class MatchesService {
 
   changeInProgress = async (id: string) => {
     const changeProgress = await matchModel.update({ inProgress: false }, { where: { id } });
+    return changeProgress;
+  };
+
+  changeMatches = async (id: string, homeTeamGoals: string, awayTeamGoals: string) => {
+    const changeProgress = await matchModel.update({ homeTeamGoals, awayTeamGoals }, {
+      where: { id },
+    });
     return changeProgress;
   };
 }

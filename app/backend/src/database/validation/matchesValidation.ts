@@ -17,16 +17,6 @@ const matchesValidation = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const mesmoTeam = (req: Request, res: Response, next: NextFunction) => {
-  const { homeTeamId, awayTeamId } = req.body;
-  if (homeTeamId === awayTeamId) {
-    return res.status(422).json({
-      message: 'It is not possible to create a match with two equal teams',
-    });
-  }
-  next();
-};
-
 const teamInexistente = async (req: Request, res: Response, next: NextFunction) => {
   const { homeTeamId, awayTeamId } = req.body;
   const team1 = await teamModel.findOne({ where: { id: homeTeamId } });
@@ -34,6 +24,18 @@ const teamInexistente = async (req: Request, res: Response, next: NextFunction) 
 
   if (!team1 || !team2) {
     return res.status(404).json({ message: 'There is no team with such id!' });
+  }
+  next();
+};
+
+const mesmoTeam = (req: Request, res: Response, next: NextFunction) => {
+  const { homeTeamId, awayTeamId } = req.body;
+  const homeTeam = JSON.parse(homeTeamId);
+  const awayTeam = JSON.parse(awayTeamId);
+  if (homeTeam === awayTeam) {
+    return res.status(422).json({
+      message: 'It is not possible to create a match with two equal teams',
+    });
   }
   next();
 };

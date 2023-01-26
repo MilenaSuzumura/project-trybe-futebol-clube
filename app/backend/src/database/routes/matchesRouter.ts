@@ -13,9 +13,14 @@ matchesRoute.get(
 matchesRoute.post(
   '/',
   matchesValidation.matchesValidation,
-  matchesValidation.mesmoTeam,
   matchesValidation.teamInexistente,
+  matchesValidation.mesmoTeam,
   matchesControllers.newMatch.bind(matchesControllers),
+);
+
+matchesRoute.patch(
+  '/:id',
+  matchesControllers.changeMatches.bind(matchesControllers),
 );
 
 matchesRoute.patch(
