@@ -43,23 +43,14 @@ export default class MatchesService {
 
   newMatch =
   async (homeTeamId: string, awayTeamId: string, homeTeamGoals: string, awayTeamGoals: string) => {
-    if (homeTeamId === awayTeamId) {
-      return { status: 422, message: 'It is not possible to create a match with two equal teams' };
-    }
-
-    const team1 = await teamModel.findOne({ where: { id: homeTeamId } });
-    const team2 = await teamModel.findOne({ where: { id: awayTeamId } });
-    if (team1 && team2) {
-      const insert = await matchModel.create({
-        homeTeamId,
-        awayTeamId,
-        awayTeamGoals,
-        homeTeamGoals,
-        inProgress: true,
-      });
-      return insert.dataValues;
-    }
-    return { status: 404, message: 'There is no team with such id!' };
+    const insert = await matchModel.create({
+      homeTeamId,
+      awayTeamId,
+      awayTeamGoals,
+      homeTeamGoals,
+      inProgress: true,
+    });
+    return insert.dataValues;
   };
 
   changeInProgress = async (id: string) => {

@@ -33,7 +33,6 @@ const teamInexistente = async (req: Request, res: Response, next: NextFunction) 
   const team2 = await teamModel.findOne({ where: { id: awayTeamId } });
 
   if (!team1 || !team2) {
-    console.log('entrou no if do teamInexistente');
     return res.status(404).json({ message: 'There is no team with such id!' });
   }
   next();

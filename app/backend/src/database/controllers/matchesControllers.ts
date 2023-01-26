@@ -18,10 +18,7 @@ export default class MatchesControllers {
     const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;
     const match = await this.matchesService
       .newMatch(homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals);
-    if (match.message) {
-      return res.status(match.status).json({ message: match.message });
-    }
-    return res.status(match.status).json(match);
+    return res.status(201).json(match);
   }
 
   async changeInProgress(req: Request, res: Response) {
