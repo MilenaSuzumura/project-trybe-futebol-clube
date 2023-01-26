@@ -4,7 +4,7 @@ import MatchesService from '../services/matchesServices';
 export default class MatchesControllers {
   matchesService = new MatchesService();
 
-  async getMatches(req: Request, res: Response) {
+  getMatches = async (req: Request, res: Response) => {
     if (req.query.inProgress) {
       const inProgress = await this.matchesService.filtro(req.query.inProgress as string);
       return res.status(200).json(inProgress);
@@ -12,7 +12,7 @@ export default class MatchesControllers {
 
     const matches = await this.matchesService.getMatches();
     return res.status(200).json(matches);
-  }
+  };
 
   async newMatch(req: Request, res: Response) {
     const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = req.body;

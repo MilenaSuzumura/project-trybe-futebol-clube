@@ -4,16 +4,16 @@ import teamModel from '../models/TeamModel';
 export default class MatchesService {
   getMatches = async () => {
     const matches = await matchModel.findAll();
-    const mapMatches = Promise.all(matches.map(async (matche) => {
+    const mapMatches = await Promise.all(matches.map(async (matche) => {
       const teamHome = await teamModel.findOne({ where: { id: matche.homeTeamId } });
       const teamAway = await teamModel.findOne({ where: { id: matche.awayTeamId } });
       const result = {
         ...matche.dataValues,
         teamHome: {
-          teamName: teamHome?.teamName,
+          teamName: teamHome?.teamName as string,
         },
         teamAway: {
-          teamName: teamAway?.teamName,
+          teamName: teamAway?.teamName as string,
         },
       };
       return result;
@@ -24,7 +24,7 @@ export default class MatchesService {
   filtro = async (inProgressString: string) => {
     const inProgress = JSON.parse(inProgressString);
     const matches = await matchModel.findAll({ where: { inProgress } });
-    const mapMatches = Promise.all(matches.map(async (matche) => {
+    const mapMatches = await Promise.all(matches.map(async (matche) => {
       const teamAway = await teamModel.findOne({ where: { id: matche.awayTeamId } });
       const teamHome = await teamModel.findOne({ where: { id: matche.homeTeamId } });
       const result = {
@@ -44,7 +44,6 @@ export default class MatchesService {
   newMatch =
   async (homeTeamId: string, awayTeamId: string, homeTeamGoals: string, awayTeamGoals: string) => {
     if (homeTeamId === awayTeamId) {
-      console.log('entrou no if do newMatch');
       return { status: 422, message: 'It is not possible to create a match with two equal teams' };
     }
 
