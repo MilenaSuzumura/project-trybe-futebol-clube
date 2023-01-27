@@ -9,9 +9,9 @@ leaderboardRoute.get(
   leaderboardControllers.getAllLeaderboard.bind(leaderboardControllers),
 );
 
-/* leaderboardRoute.get(
+leaderboardRoute.get(
   '/away',
-  leaderboardControllers.getAllLeaderboard.bind(leaderboardControllers),
-); */
+  leaderboardControllers.getAllAway.bind(leaderboardControllers),
+);
 
 export default leaderboardRoute;
