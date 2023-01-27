@@ -5,7 +5,7 @@ export default class LeaderboardControllers {
   leaderboardService = new LeaderboardService();
 
   async getAllLeaderboard(_req: Request, res: Response) {
-    const home = await this.leaderboardService.getAllHome();
+    const [home] = await this.leaderboardService.getAllHome();
     return res.status(200).json(home);
   }
 
