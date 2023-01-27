@@ -6,12 +6,17 @@ const leaderboardControllers = new LeaderboardControllers();
 
 leaderboardRoute.get(
   '/home',
-  leaderboardControllers.getAllLeaderboard.bind(leaderboardControllers),
+  leaderboardControllers.getAllHome.bind(leaderboardControllers),
 );
 
 leaderboardRoute.get(
   '/away',
   leaderboardControllers.getAllAway.bind(leaderboardControllers),
+);
+
+leaderboardRoute.get(
+  '/',
+  leaderboardControllers.getAllLeaderboard.bind(leaderboardControllers),
 );
 
 export default leaderboardRoute;

@@ -1,3 +1,5 @@
+import leaderboardInterface from '../interface/leaderboardInterface';
+import leaderboardInterface2 from '../interface/leaderboardInterface2';
 import sequelize from '../models';
 
 export default class LeaderboardService {
@@ -42,4 +44,46 @@ export default class LeaderboardService {
   WHERE matches.in_progress = false
   GROUP BY teams.team_name ORDER BY totalPoints DESC, goalsBalance DESC,
   goalsFavor DESC, goalsOwn ASC;`));
+
+  convertString = (team: leaderboardInterface) => ({
+    name: team.name,
+    totalPoints: parseFloat(team.totalPoints),
+    totalGames: team.totalGames,
+    totalVictories: parseFloat(team.totalVictories),
+    totalLosses: parseFloat(team.totalLosses),
+    totalDraws: parseFloat(team.totalDraws),
+    goalsFavor: parseFloat(team.goalsFavor),
+    goalsOwn: parseFloat(team.goalsOwn),
+    goalsBalance: parseFloat(team.goalsBalance),
+  });
+
+  count = (team1: leaderboardInterface2, team2: leaderboardInterface2) => {
+    const teamResult = { ...team1 };
+    const efficiency = ((teamResult.totalPoints / (teamResult.totalGames * 3)) * 100)
+      .toFixed(2);
+    teamResult.totalPoints += team2.totalPoints;
+    teamResult.totalGames += team2.totalGames;
+    teamResult.totalVictories += team2.totalVictories;
+    teamResult.totalLosses += team2.totalLosses;
+    teamResult.totalDraws += team2.totalDraws;
+    teamResult.goalsFavor += team2.goalsFavor;
+    teamResult.goalsOwn += team2.goalsOwn;
+    teamResult.goalsBalance += team2.goalsBalance;
+    return { ...teamResult, efficiency };
+  };
+
+  getAllLeaderboard =
+  async (home: Array<leaderboardInterface>, away: Array<leaderboardInterface>) => {
+    const map = await Promise.all(home.map((team) => {
+      const team2 = away.find((teamAway) => team.name === teamAway.name);
+      if (team2) {
+        const team1C = this.convertString(team);
+        const team2C = this.convertString(team2);
+        const teamResult = this.count(team1C, team2C);
+        return teamResult;
+      }
+      return this.convertString(team);
+    }));
+    return map;
+  };
 }
