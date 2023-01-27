@@ -1,15 +1,15 @@
 import { Router } from 'express';
-// import LeaderboardControllers from '../controllers/leaderboardControllers';
+import LeaderboardControllers from '../controllers/leaderboardControllers';
 
 const leaderboardRoute = Router();
-/* const leaderboardControllers = new LeaderboardControllers();
+const leaderboardControllers = new LeaderboardControllers();
 
 leaderboardRoute.get(
   '/home',
   leaderboardControllers.getAllLeaderboard.bind(leaderboardControllers),
 );
 
-leaderboardRoute.get(
+/* leaderboardRoute.get(
   '/away',
   leaderboardControllers.getAllLeaderboard.bind(leaderboardControllers),
 ); */

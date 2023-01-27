@@ -34,15 +34,15 @@ describe('Teste de Matches', () => {
 
   it('Testa se dá erro ao tentar passar uma informação sem um tokin valido', async function () {
     const response = await (chai.request(app).post('/matches').set({
-      'authorization': ''
+      'authorization': 'sadasdasdasdsa'
     }))
 
     expect(response.status).to.be.equal(401);
-    expect(response.body).to.be.deep.equal({ message: 'Token not found' });
+    expect(response.body).to.be.deep.equal({ message: 'Token must be a valid token' });
   });
 
   it('Testa se o usuario não consegue alterar sem passar um id do time existente', async function () {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc0NzYyNzI4LCJleHAiOjE2NzQ3NjYzMjh9.27rm51QtjFd-HIb-xwOovk8O5wlqXuzxm1p6fWZkk-4'
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc0Nzc3MjEwLCJleHAiOjE2NzQ3ODA4MTB9.wfTRZWj7xDyH83zZQS7RPVAMa0JBVX9l7KJP6F2Ioso'
     
     const response = await (chai.request(app).post('/matches').set({
       'authorization': token
@@ -58,7 +58,7 @@ describe('Teste de Matches', () => {
   });
 
   it('Testa se o usuario não consegue alterar se passar o id igual', async function () {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc0NzYyNzI4LCJleHAiOjE2NzQ3NjYzMjh9.27rm51QtjFd-HIb-xwOovk8O5wlqXuzxm1p6fWZkk-4'
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc0Nzc3MjEwLCJleHAiOjE2NzQ3ODA4MTB9.wfTRZWj7xDyH83zZQS7RPVAMa0JBVX9l7KJP6F2Ioso'
     
     const response = await (chai.request(app).post('/matches').set({
       'authorization': token
@@ -71,5 +71,28 @@ describe('Teste de Matches', () => {
 
     expect(response.status).to.be.equal(422);
     expect(response.body).to.be.deep.equal({ message: 'It is not possible to create a match with two equal teams' });
+  });
+
+  it('Testa se o usuario consegue alterar com as informações certas', async function () {
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJBZG1pbiIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjc0Nzc3MjEwLCJleHAiOjE2NzQ3ODA4MTB9.wfTRZWj7xDyH83zZQS7RPVAMa0JBVX9l7KJP6F2Ioso'
+    
+    const response = await (chai.request(app).post('/matches').set({
+      'authorization': token
+    }).send({
+      "homeTeamId": 2,
+      "awayTeamId": 10,
+      "homeTeamGoals": 1,
+      "awayTeamGoals": 2
+    }));
+
+    expect(response.status).to.be.equal(422);
+    expect(response.body).to.be.equal({
+      "id": 49,
+      "homeTeamId": 2,
+      "awayTeamId": 10,
+      "homeTeamGoals": 1,
+      "awayTeamGoals": 2,
+      "inProgress": true
+    });
   });
 })
